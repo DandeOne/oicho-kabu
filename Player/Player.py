@@ -5,6 +5,15 @@ class Player:
         self.cards = []
         self.is_dealer = False
 
+    def __repr__(self):
+        return f"Player {self.name}, chips: {self.chips}, cards: {self.cards}, dealer: {self.is_dealer}"
+
+    def __str__(self):
+        return f"Player {self.name}, chips: {self.chips}, cards: {self.cards}, dealer: {self.is_dealer}"
+
+    def clean_hand(self):
+        self.cards = []
+
     def change_to_dealer(self):
         self.is_dealer = True
 

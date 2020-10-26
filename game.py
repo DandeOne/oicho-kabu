@@ -7,10 +7,22 @@ def randomize_deck():
     return deck
 
 
+def random_dealer_turn(list_of_players):
+    random.shuffle(list_of_players)
+    return list_of_players
+
+
 def check_card_sum(player):
-    sum = player.get_cards().sum()
-    return sum
+    sum_ = player.get_cards().sum()
+    return sum_
 
 
 def give_card(player, card):
     player.add_card(card)
+
+
+# In first round we give 4 players (not dealer) one card
+def first_round(players, deck):
+    for player in players:
+        card = deck.pop(0)
+        player.add_card(card)

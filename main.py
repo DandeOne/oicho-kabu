@@ -1,22 +1,24 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 from Player.Player import *
 import game
 
 
-# Press the green button in the gutter to run the script.
 john = Player('John', 300)
+adam = Player('Adam', 250)
+miosh = Player('Miosh', 350)
+steve = Player('Steve', 300)
+dinosaur = Player('T-Rex', 250)
 
 deck = game.randomize_deck()
 
-print(len(deck))
-print(deck)
-card = deck.pop(0)
-game.give_card(john, card)
-print(len(deck))
-print(deck)
-print(john.get_cards())
+list_of_players = [john, adam, miosh, steve, dinosaur]
+print(list_of_players)
+list_of_players = game.random_dealer_turn(list_of_players)
+print(list_of_players)
+
+dealer = list_of_players.pop(0)
+
+print(dealer)
+print(list_of_players)
+
 
 
