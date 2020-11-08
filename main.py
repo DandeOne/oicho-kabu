@@ -1,5 +1,5 @@
 from Player.Player import *
-import game
+from game import Game
 
 # Create Players
 john = Player('John', 300)
@@ -7,29 +7,37 @@ adam = Player('Adam', 250)
 miosh = Player('Miosh', 350)
 steve = Player('Steve', 300)
 dinosaur = Player('T-Rex', 250)
-# Randomizing deck
-deck = game.randomize_deck()
+# Create Game
+game = Game()
+game.add_players(john, adam, miosh, dinosaur)
+game.randomize_deck()
 
 # Deciding order of players and who is first dealer
-list_of_players = [john, adam, miosh, steve, dinosaur]
-print(list_of_players)
-list_of_players = game.random_dealer_turn(list_of_players)
-print(list_of_players)
+game.randomize_players_order()
+game.decide_dealer()
 
-dealer = list_of_players.pop(0)
+game.first_round()
+print(game.table)
 
-print(dealer)
-print(list_of_players)
+game.give_card(game.get_dealer())
 
+print(len(game.deck))
+
+print(game.list_of_players)
+print(game.bets)
 # Game loop
+# Done
 ## Decide who is the dealer in this round
 ## Show 4 cards on the table and give one card to dealer which is also seen to everyone
-
+# Done
 ## Players in specific order decide which card will be their starting one with bet
 ## Bets can be different between players.
+
+# Todo
 ## In next round each player gets one card and decides if they are standing (Showdown) or drawing another one (Draw card)
 ## Some cards are hidden so other players (and dealer) can't determine what is exact sum of cards.
 
+# Todo
 ## After that dealer draws card and decides to stand or draw one more
 ## Then dealer compares each player's hand with his. If player wins then amount of his bet is given to him.
 ## If player loses then bet goes to dealer

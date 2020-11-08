@@ -1,26 +1,33 @@
 import unittest
-import game
+from game import Game
 from Player.Player import Player
 
 
 class TestGame(unittest.TestCase):
 
     def test_randomize_deck(self):
-        self.assertEqual(len(game.randomize_deck()), 40)
+        test_game = Game()
+        test_game.randomize_deck()
+        self.assertEqual(len(test_game.deck), 40)
 
     def test_giving_cards(self):
+        test_game = Game()
         a = Player('a', 300)
         b = Player('b', 250)
         c = Player('c', 350)
         d = Player('d', 300)
-        deck = game.randomize_deck()
-        game.first_round([a, b, c, d], deck)
 
-        self.assertEqual(len(a.get_cards()), 1)
-        self.assertEqual(len(b.get_cards()), 1)
-        self.assertEqual(len(c.get_cards()), 1)
-        self.assertEqual(len(d.get_cards()), 1)
-        self.assertEqual(len(deck), 36)
+        test_game.add_players(a, b, c, d)
+
+        test_game.randomize_deck()
+
+        test_game.first_round()
+
+        self.assertEqual(len(a.cards), 1)
+        self.assertEqual(len(b.cards), 1)
+        self.assertEqual(len(c.cards), 1)
+        self.assertEqual(len(d.cards), 1)
+        self.assertEqual(len(test_game.deck), 36)
 
 
 if __name__ == '__main__':
