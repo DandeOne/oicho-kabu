@@ -5,7 +5,6 @@ from game import Game
 john = Player('John', 300)
 adam = Player('Adam', 250)
 miosh = Player('Miosh', 350)
-steve = Player('Steve', 300)
 dinosaur = Player('T-Rex', 250)
 # Create Game
 game = Game()
@@ -17,14 +16,12 @@ game.randomize_players_order()
 game.decide_dealer()
 
 game.first_round()
-print(game.table)
 
 game.give_card(game.get_dealer())
 
-print(len(game.deck))
+game.second_round()
 
-print(game.list_of_players)
-print(game.bets)
+game.debug_show_cards()
 # Game loop
 # Done
 ## Decide who is the dealer in this round
@@ -33,12 +30,12 @@ print(game.bets)
 ## Players in specific order decide which card will be their starting one with bet
 ## Bets can be different between players.
 
-# Todo
+# Done
 ## In next round each player gets one card and decides if they are standing (Showdown) or drawing another one (Draw card)
 ## Some cards are hidden so other players (and dealer) can't determine what is exact sum of cards.
+## After that dealer draws card and decides to stand or draw one more
 
 # Todo
-## After that dealer draws card and decides to stand or draw one more
 ## Then dealer compares each player's hand with his. If player wins then amount of his bet is given to him.
 ## If player loses then bet goes to dealer
 

@@ -54,6 +54,29 @@ class Game:
 
         return sum_
 
+    # Each player can see his own cards and dealer cards. Other players' second card is always hidden until showdown phase.
+    def show_cards(self, person):
+        print(f"Showing table for {person}")
+        for player in self._list_of_players:
+            if (player == person) | player.is_dealer:
+                print(f"Player: {player.name}, Dealer: {player.is_dealer}, Cards: {player.cards}")
+            else:
+                if len(player.cards) == 3:
+                    cards = [player.cards[0]]
+                    cards.append(player.cards[2])
+                    print(f"Player: {player.name}, Dealer: {player.is_dealer}, Cards: {cards}")
+                else:
+                    cards = [player.cards[0]]
+                    print(f"Player: {player.name}, Dealer: {player.is_dealer}, Cards: {cards}")
+
+        print(f"Table: {self._table}")
+
+    def debug_show_cards(self):
+        print(f"Show whole table:")
+        for player in self._list_of_players:
+            print(f"Player: {player.name}, Dealer: {player.is_dealer}, Cards: {player.cards}")
+        print(f"Table: {self._table}")
+
     def give_card(self, player):
         card = self._deck.pop(0)
         player.add_card(card)
@@ -75,3 +98,25 @@ class Game:
                     self._bets.append((player, bet))
                 else:  # todo better error handling if bet is incorrect
                     print(f"Bet incorrect")
+
+    # In second round each player gets another card and then decides to showdown or draw another card (third one).
+    # Remaining card on table gets two cards.
+    def second_round(self):
+        for player in self.list_of_players:
+            if not player.is_dealer:
+                player.add_card(self.deck.pop(0))
+                self.show_cards(player)
+                choice = int(input("0 - Showdown, 1 - Draw card"))
+                if choice:
+                    player.add_card(self.deck.pop(0))
+                    self.show_cards(player)
+
+        self._table.append(self.deck.pop(0))
+        self._table.append(self.deck.pop(0))
+
+        self.get_dealer().add_card(self.deck.pop(0))
+        self.show_cards(self.get_dealer())
+        choice = int(input("0 - Showdown, 1 - Draw card"))
+        if choice:
+            self.get_dealer().add_card(self.deck.pop(0))
+            self.show_cards(self.get_dealer())

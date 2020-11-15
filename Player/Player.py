@@ -36,5 +36,9 @@ class Player:
     def chips(self):
         return self._chips
 
+    @chips.setter
+    def chips(self, value):
+        self._chips=value
+
     def add_card(self, card):
         self._cards.append(card)
