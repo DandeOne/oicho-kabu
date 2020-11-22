@@ -4,6 +4,8 @@ class Player:
         self._chips = chips
         self._cards = []
         self._is_dealer = False
+        # Todo
+        self._behaviour = None
 
     def __repr__(self):
         return f"(Player {self._name}, chips: {self._chips}, cards: {self._cards}, dealer: {self.is_dealer})"
@@ -38,7 +40,25 @@ class Player:
 
     @chips.setter
     def chips(self, value):
-        self._chips=value
+        self._chips = value
 
     def add_card(self, card):
         self._cards.append(card)
+
+    def choose_card(self):
+        if self._behaviour is not None:  # Bot
+            return self._behaviour.choose_card()
+        else:  # Player
+            return int(input())
+
+    def decide(self):
+        if self._behaviour is not None:  # Bot
+            return self._behaviour.decide()
+        else:  # Player
+            return int(input())
+
+    def bet(self):
+        if self._behaviour is not None:  # Bot
+            return self._behaviour.bet()
+        else:  # Player
+            return int(input())

@@ -7,7 +7,7 @@ class Game:
         self._list_of_players = []
         self._deck = []
         self._table = []
-        self._bets = []
+        self._bets = {}
 
     def add_player(self, player):
         self._list_of_players.append(player)
@@ -49,7 +49,7 @@ class Game:
 
     @staticmethod
     def check_card_sum(player):
-        sum_ = (player.get_cards().sum()) % 10
+        sum_ = sum(player.cards) % 10
         # todo special cards combinations
 
         return sum_
@@ -62,8 +62,7 @@ class Game:
                 print(f"Player: {player.name}, Dealer: {player.is_dealer}, Cards: {player.cards}")
             else:
                 if len(player.cards) == 3:
-                    cards = [player.cards[0]]
-                    cards.append(player.cards[2])
+                    cards = [player.cards[0], player.cards[2]]
                     print(f"Player: {player.name}, Dealer: {player.is_dealer}, Cards: {cards}")
                 else:
                     cards = [player.cards[0]]
@@ -91,11 +90,17 @@ class Game:
                 print(self._table)
                 print(f"Player {player.name}, choose your starting card")
                 available_cards = [x for x in range(len(self._table))]
-                choice = int(input(f"{available_cards}\n"))
+                print(f"{available_cards}")
+                choice = int(player.choose_card())
+                while choice >= len(available_cards):
+                    print(f"Something is wrong with your choice, please try again:")
+                    print(f"{available_cards}\n")
+                    choice = int(player.choose_card())
                 player.add_card(self._table.pop(choice))
-                bet = int(input(f"Set your bet (maximum: {player.chips}): \n"))
+                print(f"Set your bet (maximum: {player.chips}):")
+                bet = player.bet()
                 if (bet <= player.chips) & (bet >= 0):
-                    self._bets.append((player, bet))
+                    self._bets[player.name] = bet
                 else:  # todo better error handling if bet is incorrect
                     print(f"Bet incorrect")
 
@@ -106,7 +111,8 @@ class Game:
             if not player.is_dealer:
                 player.add_card(self.deck.pop(0))
                 self.show_cards(player)
-                choice = int(input("0 - Showdown, 1 - Draw card"))
+                print("0 - Showdown, 1 - Draw card")
+                choice = player.decide()
                 if choice:
                     player.add_card(self.deck.pop(0))
                     self.show_cards(player)
@@ -116,7 +122,27 @@ class Game:
 
         self.get_dealer().add_card(self.deck.pop(0))
         self.show_cards(self.get_dealer())
-        choice = int(input("0 - Showdown, 1 - Draw card"))
+        print("0 - Showdown, 1 - Draw card")
+        choice = self.get_dealer().decide()
         if choice:
             self.get_dealer().add_card(self.deck.pop(0))
             self.show_cards(self.get_dealer())
+
+    def check_results(self):
+        dealer = self.get_dealer()
+        for player in self.list_of_players:
+            if not player.is_dealer:
+                print(f"Showdown {dealer.name}: {dealer.cards} vs {player.name}: {player.cards}")
+                if self.check_card_sum(dealer) >= self.check_card_sum(player):
+                    print(f"Dealer won, bet goes to dealer")
+                    dealer.chips = dealer.chips + self.bets[player.name]
+                    player.chips = player.chips - self.bets[player.name]
+                else:
+                    print(f"Player won, bet goes to player")
+                    dealer.chips = dealer.chips - self.bets[player.name]
+                    player.chips = player.chips + self.bets[player.name]
+
+    def reset_game(self):
+        self.randomize_deck()
+        self._bets = {}
+        self._table = []

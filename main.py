@@ -14,7 +14,7 @@ game.randomize_deck()
 # Deciding order of players and who is first dealer
 game.randomize_players_order()
 game.decide_dealer()
-
+print(game.list_of_players)
 game.first_round()
 
 game.give_card(game.get_dealer())
@@ -22,6 +22,10 @@ game.give_card(game.get_dealer())
 game.second_round()
 
 game.debug_show_cards()
+
+game.check_results()
+print(game.list_of_players)
+
 # Game loop
 # Done
 ## Decide who is the dealer in this round
@@ -34,10 +38,11 @@ game.debug_show_cards()
 ## In next round each player gets one card and decides if they are standing (Showdown) or drawing another one (Draw card)
 ## Some cards are hidden so other players (and dealer) can't determine what is exact sum of cards.
 ## After that dealer draws card and decides to stand or draw one more
-
-# Todo
 ## Then dealer compares each player's hand with his. If player wins then amount of his bet is given to him.
 ## If player loses then bet goes to dealer
+
+# Todo
+## Behaviour class for computer players to get from them specific actions and make human vs bots games possible
 
 # End of Game loop
 # Change dealer and order of players and return to game loop
