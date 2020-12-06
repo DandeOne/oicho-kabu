@@ -91,11 +91,11 @@ class Game:
                 print(f"Player {player.name}, choose your starting card")
                 available_cards = [x for x in range(len(self._table))]
                 print(f"{available_cards}")
-                choice = int(player.choose_card())
+                choice = int(player.choose_card(zip([x for x in range(len(self._table))], self.table)))
                 while choice >= len(available_cards):
                     print(f"Something is wrong with your choice, please try again:")
                     print(f"{available_cards}\n")
-                    choice = int(player.choose_card())
+                    choice = int(player.choose_card(zip([x for x in range(len(self._table))], self.table)))
                 player.add_card(self._table.pop(choice))
                 print(f"Set your bet (maximum: {player.chips}):")
                 bet = player.bet()
@@ -112,7 +112,7 @@ class Game:
                 player.add_card(self.deck.pop(0))
                 self.show_cards(player)
                 print("0 - Showdown, 1 - Draw card")
-                choice = player.decide()
+                choice = player.decide(player, self.get_dealer(), self.list_of_players)
                 if choice:
                     player.add_card(self.deck.pop(0))
                     self.show_cards(player)
@@ -123,7 +123,7 @@ class Game:
         self.get_dealer().add_card(self.deck.pop(0))
         self.show_cards(self.get_dealer())
         print("0 - Showdown, 1 - Draw card")
-        choice = self.get_dealer().decide()
+        choice = self.get_dealer().decide(self.get_dealer(),self.get_dealer(), self.list_of_players)
         if choice:
             self.get_dealer().add_card(self.deck.pop(0))
             self.show_cards(self.get_dealer())

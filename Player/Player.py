@@ -1,11 +1,13 @@
+from Player.Behaviour import Behaviour
+
+
 class Player:
-    def __init__(self, name, chips):
+    def __init__(self, name, chips, behaviour: Behaviour):
         self._name = name
         self._chips = chips
         self._cards = []
         self._is_dealer = False
-        # Todo
-        self._behaviour = None
+        self._behaviour = behaviour
 
     def __repr__(self):
         return f"(Player {self._name}, chips: {self._chips}, cards: {self._cards}, dealer: {self.is_dealer})"
@@ -45,15 +47,15 @@ class Player:
     def add_card(self, card):
         self._cards.append(card)
 
-    def choose_card(self):
+    def choose_card(self, cards_and_their_values):
         if self._behaviour is not None:  # Bot
-            return self._behaviour.choose_card()
+            return self._behaviour.choose_card(cards_and_their_values)
         else:  # Player
             return int(input())
 
-    def decide(self):
+    def decide(self,player, dealer, list_of_players):
         if self._behaviour is not None:  # Bot
-            return self._behaviour.decide()
+            return self._behaviour.decide(player, dealer, list_of_players)
         else:  # Player
             return int(input())
 
